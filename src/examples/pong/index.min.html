@@ -1,0 +1,8 @@
+<style>body{background-color:#3b3b3b;text-align:center}#begin{color:#fff;font-family:'Courier New',Courier,monospace;font-size:8rem;font-weight:bolder}</style><div id=begin>Click to Begin</div><canvas width=640 height=640 id=cnvs></canvas><script type=module>import { runVectorGame } from "../../engine/VectorEngine.js";
+
+    //const canvas = document.getElementById("cnvs");
+    function playGame() {
+      document.getElementById("begin").style.display = "none";
+      runVectorGame("cnvs", "pong.wasm", "gameLoop", 10);
+    }
+    document.onclick = playGame;</script>

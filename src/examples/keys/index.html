@@ -1,0 +1,22 @@
+<html>
+
+<head>
+  <style>
+    body {
+      background-color: #3b3b3b;
+      text-align: center;
+    }
+  </style>
+
+</head>
+
+<body>
+  <canvas width="640" height="640" id="cnvs"></canvas>
+  <script type="module">
+    import { runVectorGame } from "../../engine/VectorEngine.js";
+
+    runVectorGame("cnvs", "helloworld.wasm", "gameLoop", 10);
+  </script>
+</body>
+
+</html>
