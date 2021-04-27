@@ -152,10 +152,23 @@ function keyUp(event) {
 	keyDownPos[event.keyCode] = false;
 }
 
+let mousePtr;
+
 function mouseMove(event) {
-	const mousePos = new Int32Array(memory.buffer, mouseXPtr, 2);
-	mousePos[0] = event.offsetX;
-	mousePos[1] = event.offsetY;
+	if (mousePtr == null) {
+		console.log(
+			`
+			mouseXPtr: ${mouseXPtr}
+			`
+		);
+		mousePtr = new Int32Array(memory.buffer, mouseXPtr, 8);
+	}
+	mousePtr[0] = event.offsetX;
+	mousePtr[1] = event.offsetY;
+	console.log(`
+	event.offsetX: ${event.offsetX}
+	event.offsetY: ${event.offsetY}
+	`);
 }
 
 function onContext(event) {
@@ -476,6 +489,19 @@ function playSFX(wave_type, freq, freq_slide,
 
 export function runVectorGame(canvas_id, wasm_file, game_loop_name, memory_pages = 100) {
 	const canvas = document.getElementById(canvas_id);
+
+	var w = window.innerWidth * 0.99;
+	var h = window.innerHeight * 0.99;
+
+	if (w > h) {
+		cnvs.width = h;
+		cnvs.height = h;
+	}
+	else {
+		cnvs.width = w;
+		cnvs.height = w;
+	}
+
 
 	memory = new WebAssembly.Memory({ initial: memory_pages });
 	importObject = {

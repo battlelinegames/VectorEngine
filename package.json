@@ -1,0 +1,33 @@
+{
+  "name": "vectorengine",
+  "version": "1.0.0",
+  "description": "This is a minimal WebGL vector rendering engine written for AssemblyScript.  ",
+  "main": "index.js",
+  "scripts": {
+    "test": "dev",
+    "asc": "asc --importMemory -Oz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/battlelinegames/VectorEngine.git"
+  },
+  "keywords": [
+    "AssemblyScript",
+    "WebAssembly",
+    "Wasm",
+    "WebGL",
+    "Vector",
+    "Rendering"
+  ],
+  "author": "Rick Battagline <rick@battagline.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/battlelinegames/VectorEngine/issues"
+  },
+  "homepage": "https://github.com/battlelinegames/VectorEngine#readme",
+  "devDependencies": {
+    "assemblyscript": "^0.18.28",
+    "connect": "^3.7.0",
+    "serve-static": "^1.14.1"
+  }
+}

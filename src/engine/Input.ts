@@ -66,9 +66,10 @@ export class Input {
 	}
 
 	public static init(): void {
+		/*
 		Input.canvasWidth = 640;
 		Input.canvasHeight = 640;
-
+		*/
 		Input.inputMemoryAddress = heap.alloc(Input.inputMemorySize);
 
 		Input.keyAddress = Input.inputMemoryAddress;
@@ -83,6 +84,11 @@ export class Input {
 
 		Input.mouseXAddress = Input.inputMemoryAddress + Input.keyInputSize + 8;
 		Input.mouseYAddress = Input.inputMemoryAddress + Input.keyInputSize + 12;
+
+		if (Input.mouseXAddress % 4 != 0) {
+			Input.mouseXAddress += Input.mouseXAddress % 4;
+			Input.mouseYAddress += Input.mouseXAddress % 4;
+		}
 
 		setInputPtrs(Input.keyAddress,
 			Input.mouseLeftDownAddress,
