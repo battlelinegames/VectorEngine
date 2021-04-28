@@ -8,13 +8,13 @@ const min = require('node-minify');
 fs.readdir('./src/engine', (err, files) => {
   files.forEach(file => {
     if (path.extname(file) === '.ts') {
-      fs.copyFileSync('./src/engine/' + file, './dist/engine/' + path.basename(file));
+      fs.copyFileSync('./src/engine/' + file, './lib/' + path.basename(file));
     }
     if (path.extname(file) === '.js') {
       min.minify({
         compressor: 'gcc',
         input: './src/engine/VectorEngine.js',
-        output: './dist/engine/VectorEngine.js',
+        output: './lib/VectorEngine.js',
         callback: () => { }
       })
     }
