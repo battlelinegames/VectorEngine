@@ -19,7 +19,7 @@
     "Vector",
     "Rendering"
   ],
-  "author": "Rick Battagline <rick@battagline.com>",
+  "author": "Rick Battagline <rick@battagline.com> (https://wasmbook.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/battlelinegames/VectorEngine/issues"
