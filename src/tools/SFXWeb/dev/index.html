@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+
+</head>
+
+<body style="background-color: white">
+    <style type="text/css">
+        body {
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            background-color: #666666;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #buttonbox {
+            float: left;
+            margin: 10px;
+            height: 1200px;
+        }
+
+        .button {
+            width: 200px;
+            background-color: #008CBA;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+
+        .button:hover {
+            background-color: blue;
+        }
+
+        #waveType {
+            display: none;
+        }
+
+        #waveTypeVisual {
+            display: block;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            width: 409px;
+            border-radius: 12px;
+        }
+
+        #waveTypeVisual li {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        #waveTypeVisual li:hover {
+            background-color: #111;
+        }
+
+        #waveTypeVisual li:selected {
+            background-color: orange;
+        }
+
+        .titlelabel {
+            display: block;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        #slideTypeVisual {
+            display: inline-block;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            width: 263px;
+            border-radius: 12px;
+        }
+
+        #slideTypeVisual li {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        #slideTypeVisual li:hover {
+            background-color: #111;
+        }
+
+        #slideType {
+            display: none;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 300px;
+            height: 10px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #008CBA;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #008CBA;
+            cursor: pointer;
+        }
+
+        .controllabel {
+            display: inline-block;
+            vertical-align: middle;
+            width: 130px;
+            height: 18px;
+            margin-top: 10px;
+        }
+
+        #vibratoWave {
+            display: none;
+        }
+
+        #vibratoWaveVisual {
+            display: inline-block;
+            list-style-type: none;
+            margin: 0;
+            margin-top: 10px;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            width: 336px;
+            border-radius: 12px;
+        }
+
+        #vibratoWaveVisual li {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        #vibratoWaveVisual li:hover {
+            background-color: #111;
+        }
+
+        #vibratoWaveVisual li:selected {
+            background-color: orange;
+        }
+
+        #vibratoWave {
+            float: left;
+            margin: 10px;
+        }
+
+        input[type=number] {
+            width: 50px;
+            background-color: #EEF;
+            border: 1px solid #CCF;
+            text-align: center;
+        }
+
+        .card {
+            float: left;
+            /*display: inline-block;*/
+            margin: 5px;
+            border-radius: 10px;
+            background-color: #EEE;
+            width: 520px;
+            padding: 18px;
+        }
+
+        .columnflex {
+            display: flex;
+            flex-direction: column;
+            float: left;
+        }
+
+        textarea {
+            height: auto;
+            width: 400px;
+            max-width: 600px;
+            color: #999;
+            font-weight: 400;
+            font-size: 12px;
+            font-family: Courier, monospace;
+            background: #fff;
+            border-radius: 3px;
+            line-height: 2em;
+            border: none;
+            box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+            padding: 5px;
+            -webkit-transition: height 2s ease;
+            -moz-transition: height 2s ease;
+            -ms-transition: height 2s ease;
+            -o-transition: height 2s ease;
+            transition: height 2s ease;
+        }
+    </style>
+    <div id="buttonbox">
+        <input class="button" type="button" onmousedown="im.PowerDown()" value=" POWER DOWN " /><br /><br />
+
+        <input class="button" type="button" onmousedown="im.PowerUp()" value=" POWER UP " /><br /><br />
+
+        <input class="button" type="button" onmousedown="im.LaserShot()" value=" LASER " /><br /><br />
+
+        <input class="button" type="button" onmousedown="im.Explosion()" value=" EXPLOSION " /><br /><br />
+
+        <input class="button" type="button" onmousedown="im.Pickup()" value=" PICKUP " /><br /><br />
+
+        <input class="button" type="button" onmousedown="im.Hit()" value=" HIT " /><br /><br />
+
+        <input class="button" type="button" onmousedown="im.Jump()" value=" JUMP " /><br /><br />
+
+    </div>
+    <div class="columnflex">
+        <div id="wave" class="card">
+            <span class="titlelabel">Wave Type</span>
+            <ul id="waveTypeVisual">
+                <li id="square" style="background-color: orangered" onmousedown="im.WaveClick(this)">Square</li>
+                <li id="triangle" onmousedown="im.WaveClick(this)">Triangle</li>
+                <li id="sawtooth" onmousedown="im.WaveClick(this)">Sawtooth</li>
+                <li id="sine" onmousedown="im.WaveClick(this)">Sine</li>
+                <li id="noise" onmousedown="im.WaveClick(this)">Noise</li>
+            </ul><br /><br />
+            <select id="waveType">
+                <option value="square">Square</option>
+                <option value="triangle">Triangle</option>
+                <option value="sawtooth">Sawtooth</option>
+                <option value="sine">Sine</option>
+                <option value="noise">Noise</option>
+            </select>
+
+            <span class="controllabel">Frequency</span>
+            <input id="frequencySlider" onchange="im.SyncValues()" type="range" min="50" max="15000" value="440"
+                class="slider">
+            <input id="frequency" onchange="im.SyncSliders()" type="number" value="440" min="50" max="15000" /><br />
+
+            <span class="controllabel">Frequency Slide</span>
+            <input id="frequencySlideSlider" onchange="im.SyncValues()" type="range" min="0" max="15000" value="0"
+                class="slider">
+            <input id="frequencySlide" onchange="im.SyncSliders()" type="number" value="0" min="0"
+                max="15000" /><br /><br />
+
+            <span class="controllabel" style="margin-top: -15px; height: 40px">Slide Type</span>
+            <ul id="slideTypeVisual">
+                <li id="none" onmousedown="im.SlideClick(this)">None</li>
+                <li id="linear" onmousedown="im.SlideClick(this)" style="background-color: orangered">Linear</li>
+                <li id="exp" onmousedown="im.SlideClick(this)">Exponential</li>
+            </ul><br /><br />
+            <select id="slideType">
+                <option value="none">None</option>
+                <option value="linear" selected="selected">Linear</option>
+                <option value="exp">Exponential</option>
+            </select>
+            <!--<br/><br/>-->
+
+            <span class="titlelabel">Delay Frequency</span>
+            <span class="controllabel">Start Time Pct</span>
+            <input id="delayFrequencyStartTimePctSlider" onchange="im.SyncValues()" type="range" min="0" max="1"
+                value="0.5" step="0.05" class="slider">
+            <input id="delayFrequencyStartTimePct" onchange="im.SyncSliders()" type="number" value="0.5" min="0" max="1"
+                step="0.05" /><br />
+            <span class="controllabel">Frequency Mult</span>
+            <input id="delayFrequencyMultSlider" onchange="im.SyncValues()" type="range" min="0" max="10" value="2"
+                step="0.1" class="slider">
+            <input id="delayFrequencyMult" onchange="im.SyncSliders()" type="number" value="2" min="0" step="0.1"
+                max="10" /><br /><br />
+        </div>
+
+        <div id="vibrato" class="card">
+            <span class="titlelabel">Vibrato</span>
+            <span class="controllabel">Time</span>
+            <input id="vibratoTimeSlider" onchange="im.SyncValues()" type="range" min="0" max="1" value="0" step="0.01"
+                class="slider">
+            <input id="vibratoTime" onchange="im.SyncSliders()" type="number" value="0" min="0" max="1"
+                step="0.01" /><br />
+            <span class="controllabel">Frequency:</span>
+            <input id="vibratoFrequencySlider" onchange="im.SyncValues()" type="range" min="0" max="60" value="0"
+                class="slider">
+            <input id="vibratoFrequency" onchange="im.SyncSliders()" type="number" value="0" min="0" max="60" /><br />
+            <span class="controllabel" style="margin-top: -30px">Wave</span>
+            <!--    <input id="vibratoWave" onchange="reset()" value="sine"/><br/> -->
+            <ul id="vibratoWaveVisual">
+                <li id="vsquare" style="background-color: orangered" onmousedown="im.VibratoWaveClick(this)">Square</li>
+                <li id="vtriangle" onmousedown="im.VibratoWaveClick(this)">Triangle</li>
+                <li id="vsawtooth" onmousedown="im.VibratoWaveClick(this)">Sawtooth</li>
+                <li id="vsine" onmousedown="im.VibratoWaveClick(this)">Sine</li>
+            </ul><br /><br />
+            <select id="vibratoWave">
+                <option value="square">Square</option>
+                <option value="triangle">Triangle</option>
+                <option value="sawtooth">Sawtooth</option>
+                <option value="sine">Sine</option>
+            </select>
+
+            <span class="controllabel">Shift Time</span>
+            <input id="vibratoShiftTimeSlider" onchange="im.SyncValues()" type="range" min="0" max="1" value="0"
+                step="0.01" class="slider">
+            <input id="vibratoShiftTime" onchange="im.SyncSliders()" type="number" value="0" min="0" step="0.01"
+                max="1" /><br /><br />
+        </div>
+
+        <div id="noisedetune" class="card">
+            <span class="titlelabel">Noise Tune</span>
+            <span class="controllabel">Amount</span>
+            <input id="noiseDetuneSlider" onchange="im.SyncValues()" type="range" min="-50" max="50" value="0" step="1"
+                class="slider">
+            <input id="noiseDetune" onchange="im.SyncSliders()" type="number" min="-50" max="50" value="0" /><br />
+            <span class="controllabel">Slide</span>
+            <input id="noiseDetuneSlideSlider" onchange="im.SyncValues()" type="range" min="-50" max="50" value="0"
+                step="1" class="slider">
+            <input id="noiseDetuneSlide" onchange="im.SyncSliders()" type="number" value="0" min="-50"
+                max="50" /><br /><br />
+        </div>
+
+    </div>
+    <div class="columnflex">
+
+
+        <div id="envelope" class="card">
+            <span class="titlelabel">Envelope</span>
+            <span class="controllabel">Attack Time</span>
+            <input id="attackTimeSlider" onchange="im.SyncValues()" type="range" min="0" max="1" value="0.1" step="0.01"
+                class="slider">
+            <input id="attackTime" onchange="im.SyncSliders()" type="number" step="0.01" value="0.1" min="0"
+                max="1" /><br />
+            <span class="controllabel">Decay Time</span>
+            <input id="decayTimeSlider" onchange="im.SyncValues()" type="range" min="0" max="1" value="0.1" step="0.01"
+                class="slider">
+            <input id="decayTime" onchange="im.SyncSliders()" type="number" value="0.1" min="0" max="1"
+                step="0.01" /><br />
+            <span class="controllabel">Sustain Time</span>
+            <input id="sustainTimeSlider" onchange="im.SyncValues()" type="range" min="0" max="2" value="0.4"
+                step="0.01" class="slider">
+            <input id="sustainTime" onchange="im.SyncSliders()" type="number" value="0.4" min="0" step="0.01"
+                max="2" /><br />
+            <span class="controllabel">Release Time</span>
+            <input id="releaseTimeSlider" onchange="im.SyncValues()" type="range" min="0" max="2" value="0.4"
+                step="0.01" class="slider">
+            <input id="releaseTime" onchange="im.SyncSliders()" type="number" step="0.01" value="0.4" min="0"
+                max="2" /><br />
+            <span class="controllabel">Attk Punch Vol</span>
+            <input id="attackPunchVolumeSlider" onchange="im.SyncValues()" type="range" min="1" max="5" value="1.2"
+                step="0.1" class="slider">
+            <input id="attackPunchVolume" onchange="im.SyncSliders()" type="number" step="0.1" value="1.2" min="1"
+                max="5" /><br /><br />
+        </div>
+
+        <div id="passfilter" class="card">
+            <span class="titlelabel">Pass Filters</span>
+            <span class="controllabel">Low Frequency</span>
+            <input id="lowPassFrequencySlider" onchange="im.SyncValues()" type="range" min="0" max="15000" value="0"
+                step="1" class="slider">
+            <input id="lowPassFrequency" onchange="im.SyncSliders()" type="number" value="0" min="0"
+                max="15000" /><br />
+            <span class="controllabel">Low Ramp</span>
+            <input id="lowPassFrequencyRampSlider" onchange="im.SyncValues()" type="range" min="0" max="15000" value="0"
+                step="1" class="slider">
+            <input id="lowPassFrequencyRamp" onchange="im.SyncSliders()" type="number" value="0" min="0"
+                max="15000" /><br />
+
+            <span class="controllabel">High Frequency</span>
+            <input id="hiPassFrequencySlider" onchange="im.SyncValues()" type="range" min="0" max="15000" value="0"
+                step="1" class="slider">
+            <input id="hiPassFrequency" onchange="im.SyncSliders()" type="number" value="0" min="0"
+                max="15000" /><br /><br />
+        </div>
+
+
+        <div id="flange" class="card">
+            <span class="titlelabel">Flange</span>
+            <span class="controllabel">Delay Time</span>
+            <input id="flangeDelayTimeSlider" onchange="im.SyncValues()" type="range" min="0" max="0.02" value="0"
+                step="0.001" class="slider">
+            <input id="flangeDelayTime" onchange="im.SyncSliders()" type="number" value="0" step="0.001" min="0"
+                max="0.02" /><br />
+            <span class="controllabel">Volume</span>
+            <input id="flangeFeedbackVolumeSlider" onchange="im.SyncValues()" type="range" min="0" max="0.8" value="0"
+                step="0.01" class="slider">
+            <input id="flangeFeedbackVolume" onchange="im.SyncSliders()" type="number" value="0" min="0"
+                max="0.8" /><br /><br />
+        </div>
+
+        <div id="dutycycle" class="card">
+            <span class="titlelabel">Duty Cycle</span>
+            <span class="controllabel">Cycle Length</span>
+            <input id="dutyCycleLengthSlider" onchange="im.SyncValues()" type="range" min="0" max="0.5" value="0"
+                step="0.01" class="slider">
+            <input id="dutyCycleLength" onchange="im.SyncSliders()" type="number" step="0.01" value="0" min="0"
+                max="0.5" /><br />
+            <span class="controllabel">Percent</span>
+            <input id="dutyCyclePctSlider" onchange="im.SyncValues()" type="range" min="0" max="0.5" value="0"
+                step="0.01" class="slider">
+            <input id="dutyCyclePct" onchange="im.SyncSliders()" type="number" step="0.01" value="0" min="0"
+                max="0.5" /><br /><br />
+        </div>
+
+
+        <div id="volume" class="card">
+            <span class="titlelabel">Volume</span>
+            <span>Gain:</span>
+            <input id="gainSlider" onchange="im.SyncValues()" type="range" min="0" max="10" value="1" step="0.1"
+                class="slider">
+            <input id="gain" onchange="im.SyncSliders()" type="number" value="1" min="0" max="10"
+                step="0.1" /><br /><br />
+            <input style="background-color: #4CAF50;" class="button" type="button" onmousedown="im.play();"
+                value=" PLAY ► " /><br /><br />
+        </div>
+    </div>
+    <div style="height: 100%; margin: 10px; margin-left: 20px;">
+        <textarea id="codearea">
+        </textarea>
+    </div>
+    <script src="interface.js"></script>
+
+    <script type="text/javascript">
+        var reset_sound = 0;
+        new SFXWeb();
+        var im = new InterfaceManager();
+        SFXWeb.SN.SetDef(im.def);
+
+        document.body.onmousedown = im.MouseDown;
+        document.body.onmouseup = im.MouseUp;
+    </script>
+
+</body>
+
+</html>

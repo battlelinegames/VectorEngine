@@ -1,0 +1,54 @@
+body {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	color: #36454f;
+	font-weight: bold;
+}
+button {
+	border-radius:0.5rem;
+	padding: 0.6rem 0.25rem;
+	font-size: 1.2rem;
+	color: white;
+	background-color: rgb(85, 85, 133);;
+	border-color: #36454f;
+	border-width: 1px;
+	font-variant: small-caps;
+	width: 12rem;
+	float:left;
+	margin:1rem;
+}
+
+.currentLayer {
+	float:left;
+	font-variant: small-caps;
+	font-size: 1.2rem;
+	padding: 1.2rem 0.25rem;
+	margin-left: 1.8rem;
+}
+
+.output {
+	float: right;
+	margin: 1rem;
+}
+
+.layerButton {
+	margin-left: 2.2rem;
+	background-color: rgb(122, 85, 133);;
+	border-color: #4f364e;
+}
+
+.layerButton:hover {
+	background-color: rgb(153, 76, 143);;
+	border-color: #4f364e;
+}
+.layerButton:active {
+	color: yellow;
+	background-color: rgb(91, 43, 93);
+}
+button:hover {
+	color: yellow;
+	background-color: rgb(122, 122, 180);
+}
+button:active {
+	color: yellow;
+	background-color: rgb(43, 43, 93);
+}

@@ -1,0 +1,39 @@
+{
+  "name": "soundsynth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "connect": "^3.6.6",
+    "gulp-copy": "^1.1.0",
+    "gulp": "^3.9.1",
+    "gulp-nunjucks-render": "^2.2.2",
+    "gulp-plumber": "^1.2.0",
+    "gulp-shell": "^0.6.5",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-livereload": "^3.8.1",
+    "gulp-typescript": "^4.0.1",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-wait": "^0.0.2",
+    "imagemin-pngquant": "^5.0.1",
+    "natives": "^1.1.6",
+    "pump": "^3.0.0",
+    "serve-static": "^1.13.2",
+    "typescript": "^2.7.2",
+    "graceful-fs": {
+      "version": "4.2.2"
+    }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.4"
+  },
+  "author": "Rick Battagline <rick@battagline.com>",
+  "license": "MIT"
+}

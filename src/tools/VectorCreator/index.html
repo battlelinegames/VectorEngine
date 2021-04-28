@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Create Vector Art</title>
+	<link rel="stylesheet" href="LinesGL.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<script>
+		var setLayerCallback;
+		var setColorCallback;
+		var deleteLayerCallback;
+	</script>
+</head>
+
+<body>
+	<div>
+		<div style="float:left">
+			<canvas id="cnvs" width="800" height="800"></canvas><br>
+		</div>
+
+		<div style="float:left">
+			<!--<button id="delete_selected">Delete Selected</button><br /><br />-->
+			<button id="add_layer">Add Layer</button><br /><br />
+			<div id="layer_buttons">
+				<div class="currentLayer">default <input type="color" id="layer_color" onchange="setColorCallback(this.value);"
+						value="#ffffff">
+				</div>
+			</div><br />
+			<button id="delete_layer">Delete Layer</button><br /><br />
+			<button id="store_object">Store</button><br /><br />
+			<input type="checkbox" id="lines" name="lines">
+			<label for="lines">No Loops</label>
+			<div id="stored_objects" style="float: left">
+			</div>
+		</div>
+		<div class="output">
+			<input type="text" id="object_name" value="object name" />
+			<br /><br />
+			<textarea id="output_text" rows="20" cols="80">
+			</textarea><br /><br />
+		</div>
+
+	</div>
+
+	<script type="module" src="LinesGL.js"></script>
+	<script type="module">
+		import {
+			renderGrid, renderLoop, renderVerts, renderHover,
+			clear, init, mouseMove, setLayer, setColor, createOutputText,
+			zoomOut, zoomIn, addLayer, deleteLayer, // click, 
+			moveX, moveY, mouseDown, mouseUp, deletePoint
+		} from './LinesGL.js';
+
+		const canvas = document.getElementById('cnvs');
+		const add_layer_btn = document.getElementById('add_layer');
+		const layer_buttons = document.getElementById('layer_buttons');
+		const layer_color = document.getElementById('layer_color');
+		layer_color.value = '#ffffff';
+		const delete_layer = document.getElementById('delete_layer');
+		const output_text = document.getElementById('output_text');
+		const object_name = document.getElementById('object_name');
+
+		document.addEventListener('keydown', (event) => {
+			if (event.code === 'ArrowLeft' || event.code === 'KeyA') {
+				moveX(0.03125);
+			}
+			if (event.code === 'ArrowUp' || event.code === 'KeyW') {
+				moveY(-0.03125);
+			}
+			if (event.code === 'ArrowRight' || event.code === 'KeyD') {
+				moveX(-0.03125);
+			}
+			if (event.code === 'ArrowDown' || event.code === 'KeyS') {
+				moveY(0.03125);
+			}
+		});
+
+		setLayerCallback = (layer_name) => {
+			var temp = setLayer(layer_name);
+			console.log(`setLayerCallback=${temp}`);
+
+			layer_buttons.innerHTML = temp;
+			onChangeOutput();
+		}
+
+		setColorCallback = (color) => {
+			setColor(color);
+			onChangeOutput();
+		}
+
+		function onZoom(event) {
+			event.preventDefault();
+			if (event.deltaY < 0.0) {
+				zoomIn(event.clientX, event.clientY)
+			}
+			else {
+				zoomOut(event.clientX, event.clientY)
+			}
+		}
+
+		function onMouseMove(event) {
+			mouseMove(event.clientX, event.clientY);
+		}
+
+		function onMouseDown(event) {
+			mouseDown(event.clientX, event.clientY);
+			onChangeOutput();
+		}
+
+		function onMouseUp(event) {
+			mouseUp();
+		}
+
+		function onAddLayer() {
+			let temp = addLayer();
+			console.log(`onAddLayer=${temp}`)
+			layer_buttons.innerHTML = temp;
+			onChangeOutput();
+		}
+
+		function onDeleteLayer() {
+			let temp = deleteLayer();
+			console.log(`onDeleteLayer=${temp}`);
+			if (temp !== "") {
+				layer_buttons.innerHTML = temp;
+			}
+			onChangeOutput();
+		}
+
+		function onChangeOutput() {
+			output_text.value = createOutputText(object_name.value);
+		}
+
+		function onRightClick(event) {
+			event.preventDefault();
+			deletePoint();
+			onChangeOutput();
+		}
+
+		function renderFrame() {
+			clear();
+			renderGrid();
+
+			if (document.getElementById("lines").checked !== false) {
+				renderLoop(true);
+			}
+			else {
+				renderLoop();
+			}
+
+			renderVerts();
+			renderHover();
+			requestAnimationFrame(renderFrame);
+		}
+
+		init();
+		canvas.onwheel = onZoom;
+		//canvas.onclick = clickCanvas;
+		canvas.onmousemove = onMouseMove;
+		canvas.onmousedown = onMouseDown;
+		canvas.oncontextmenu = onRightClick;
+		document.onmouseup = onMouseUp;
+		add_layer_btn.onclick = onAddLayer;
+		delete_layer.onclick = onDeleteLayer;
+		object_name.onchange = onChangeOutput;
+		object_name.onkeyup = onChangeOutput;
+
+		requestAnimationFrame(renderFrame);
+	</script>
+</body>
+
+</html>
