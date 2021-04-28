@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const express = require('express');
+const app = express();
+const PORT = 8080;
+
+const src_dir = '../../../src';
+
+if (!fs.existsSync(src_dir)) {
+  fs.mkdirSync(src_dir);
+}
+
+fs.copyFileSync('./index.html', src_dir);
+fs.copyFileSync('./helloworld.ts', src_dir);
+
+app.use(express.static('../lib/'));
+app.use(express.static('../../../src'));
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));

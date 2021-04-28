@@ -21,3 +21,8 @@ fs.readdir('./src/engine', (err, files) => {
   });
 });
 
+fs.readdir('./src/examples/helloworld', (err, files) => {
+  files.forEach(file => {
+    fs.copyFileSync('./src/examples/helloworld/' + file, './bin/' + path.basename(file));
+  });
+});
