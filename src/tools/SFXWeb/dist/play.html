@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+    <script>
+    </script>
+</head>
+
+<body style="background-color: white">
+<input type="button" onmousedown="play()" value="hello"/><br/>
+
+Frequency: <input type="number" id="frequency" value="440"/><br/>
+Cycle Pct: <input type="number" id="cycle_pct" value="0.3" minvalue="0.1" max_value="0.9"/><br/>
+Cycle Length: <input type="number" id="cycle_length" value="1"/><br/>
+<!--
+Frequency Mult: <input type="number" id="frequency_mult" value="2"/><br/>
+Start Change: <input type="number" id="start_change" value="0.2"/><br/>
+HPF Frequency: <input type="number" id="hpf_frequency" value="660"/><br/>
+-->
+<!--
+LPF Frequency: <input type="number" id="lpf_frequency" value="660"/><br/>
+-->
+</body>
+</html>
+
+<!-- DELAYED FREQUENCY SLIDE ARPEGGIATION -->
+<!-- FREQUENCY SLIDE -->
+<!-- FLANGE -->
+<!-- VIBRATO -->
+<!-- ENVELOPE -->
+<!-- NOISE -->
+
+<!-- DUTY CYCLE
+    var context = new AudioContext();
+    function play() {
+        var noise_node = context.createBufferSource();
+        var buffer = context.createBuffer(1, 4096, context.sampleRate);
+        var data = buffer.getChannelData(0);
+
+        var total_time = 3;
+        var t = 0;
+        var cycle_length = Number(document.getElementById("cycle_length").value);
+        var cycle_pct = Number(document.getElementById("cycle_pct").value);
+
+        var start_mute = (1.0-cycle_pct) * cycle_length;
+        var duty_cycle_node = context.createGain();
+        duty_cycle_node.gain.setValueAtTime(1, context.currentTime);
+
+        while( t < total_time ) {
+            duty_cycle_node.gain.setValueAtTime(0, context.currentTime + t + start_mute);// + start_mute
+            duty_cycle_node.gain.setValueAtTime(1, context.currentTime + t + cycle_length);
+            t += cycle_length; //cycle_length;
+        }
+
+
+        for (var i = 0; i < 4096; i++) {
+            data[i] = Math.random() * 0.2 + 0.8;
+        }
+        noise_node.buffer = buffer;
+        noise_node.loop = true;
+
+        var gainNode = context.createGain();
+        var envelope = context.createGain();
+        noise_node.connect(envelope);
+//        noise_node.connect(duty_cycle_node);
+
+
+        var osc = context.createOscillator();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(0.001, context.currentTime); // value in hertz
+        osc.connect(gainNode);
+        envelope.connect(duty_cycle_node);
+        duty_cycle_node.connect(context.destination);
+
+        envelope.gain.setValueAtTime(0.0, context.currentTime);
+        envelope.gain.linearRampToValueAtTime(0.01, context.currentTime + 1);
+        envelope.gain.linearRampToValueAtTime(1, context.currentTime + 2);
+        envelope.gain.linearRampToValueAtTime(0.0, context.currentTime + 2.5);
+
+        noise_node.start();
+        noise_node.stop( context.currentTime + 3   );
+    }
+-->
+
+<!-- HIGH PASS FILTER
+        var context = new AudioContext();
+        function play() {
+
+            var tone = context.createOscillator();
+            tone.type = 'square';
+            
+            var frequency = document.getElementById("frequency").value;
+            var frequency_mult = document.getElementById("frequency_mult").value;
+            var start_change = document.getElementById("start_change").value * 1.0;
+            var hpf_frequency = document.getElementById("hpf_frequency").value;
+
+            var highPassFilter = context.createBiquadFilter();
+            highPassFilter.type = "highpass";
+            highPassFilter.frequency.value = hpf_frequency;
+
+            tone.frequency.setValueAtTime(frequency, context.currentTime);
+            tone.frequency.setValueAtTime(frequency, context.currentTime + start_change);
+            tone.frequency.linearRampToValueAtTime(frequency * frequency_mult, context.currentTime+1); // value in hertz
+
+            tone.connect(highPassFilter);
+            highPassFilter.connect(context.destination);
+            tone.start();
+            tone.stop( context.currentTime + 1   );
+        
+        }
+-->
+
+<!-- LOW PASS FILTER 
+        var context = new AudioContext();
+        function play() {
+
+            var tone = context.createOscillator();
+            tone.type = 'square';
+            
+            var frequency = document.getElementById("frequency").value;
+            var frequency_mult = document.getElementById("frequency_mult").value;
+            var start_change = document.getElementById("start_change").value * 1.0;
+            var lpf_frequency = document.getElementById("lpf_frequency").value;
+
+            var lowPassFilter = context.createBiquadFilter();
+            lowPassFilter.type = "lowpass";
+            lowPassFilter.frequency.value = lpf_frequency;
+
+            tone.frequency.setValueAtTime(frequency, context.currentTime);
+            tone.frequency.setValueAtTime(frequency, context.currentTime + start_change);
+            tone.frequency.linearRampToValueAtTime(frequency * frequency_mult, context.currentTime+1); // value in hertz
+
+            tone.connect(lowPassFilter);
+            lowPassFilter.connect(context.destination);
+            tone.start();
+            tone.stop( context.currentTime + 1   );
+        
+        }
+-->
+
+
+<!-- DELAYED FREQUENCY SLIDE (a.k.a Arpeggiation)
+        var context = new AudioContext();
+        function play() {
+            var tone = context.createOscillator();
+            tone.type = 'square';
+            
+            var frequency = document.getElementById("frequency").value;
+            var frequency_mult = document.getElementById("frequency_mult").value;
+            var start_change = document.getElementById("start_change").value * 1.0;
+
+            tone.frequency.setValueAtTime(frequency, context.currentTime);
+            tone.frequency.setValueAtTime(frequency, context.currentTime + start_change);
+            tone.frequency.linearRampToValueAtTime(frequency * frequency_mult, context.currentTime+1); // value in hertz
+
+            tone.connect(context.destination);
+            tone.start();
+            tone.stop( context.currentTime + 1   );
+        
+        }
+-->
+
+<!-- FREQUENCY SLIDE
+        var context = new AudioContext();
+        function play() {
+            var tone = context.createOscillator();
+            tone.type = 'square';
+            
+            var frequency = document.getElementById("frequency").value;
+            // SHOULD THIS BE A MULTIPLIER???
+            var second_frequency = document.getElementById("second_frequency").value;
+
+            tone.frequency.linearRampToValueAtTime(second_frequency, context.currentTime+1); // value in hertz
+
+            tone.connect(context.destination);
+            tone.start();
+            tone.stop( context.currentTime + 1   );
+        
+        }
+-->
+
+<!-- THIS IS THE CODE FOR VIBRATO -->
+<!--
+    public flangeDelayTime: number = 0.001; // 0.001 - 0.02
+    public flangeFrequency: number = 0.5;   // 0.5 - 5
+    public flangeFeedbackVolume: number = 0; // 0 - 0.8
+    public flangeMix: number = 0.5; // 0 - 1
+
+        var context = new AudioContext();
+        function play() {
+            var gainNode = context.createGain();
+            var tone = context.createOscillator();
+            tone.type = 'square';
+            tone.frequency.setValueAtTime(440, context.currentTime); // value in hertz
+
+            var osc = context.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(10, context.currentTime); // value in hertz
+//            var gain = context.createGain();
+            osc.connect(gainNode);
+//            gain.connect(gainNode);
+
+            tone.connect(gainNode);
+            gainNode.connect(context.destination);
+            
+            osc.start();
+            osc.stop( context.currentTime + 3   );
+            
+            tone.start();
+            tone.stop( context.currentTime + 3   );
+        }
+-->
+
+
+<!-- NOISE -->
+<!--
+    var context = new AudioContext();
+        
+    function play() {
+        var noise_node = context.createBufferSource();
+        var buffer = context.createBuffer(1, 4096, context.sampleRate);
+        var data = buffer.getChannelData(0);
+
+        for (var i = 0; i < 4096; i++) {
+            data[i] = Math.random();
+        }
+        noise_node.buffer = buffer;
+        noise_node.loop = true;
+        noise_node.connect(context.destination);
+
+        var gainNode = context.createGain();
+
+        var osc = context.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(10, context.currentTime); // value in hertz
+        osc.connect(gainNode);
+
+        gainNode.connect(context.destination);
+        
+        osc.start();
+        osc.stop( context.currentTime + 3   );
+
+        noise_node.start();
+        noise_node.stop( context.currentTime + 2   );
+    }
+
+-->
+
+
+<!-- NOISE AND ENVELOPE
+
+    var context = new AudioContext();
+        
+    function play() {
+        var noise_node = context.createBufferSource();
+        var buffer = context.createBuffer(1, 4096, context.sampleRate);
+        var data = buffer.getChannelData(0);
+
+        for (var i = 0; i < 4096; i++) {
+            data[i] = Math.random() * 0.2 + 0.8;
+        }
+        noise_node.buffer = buffer;
+        noise_node.loop = true;
+//        noise_node.connect(context.destination);
+
+        var gainNode = context.createGain();
+        var envelope = context.createGain();
+//        envelope.gain.value = document.getElementById("volume").value;
+        noise_node.connect(envelope);
+
+
+        var osc = context.createOscillator();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(0.001, context.currentTime); // value in hertz
+//        osc.connect(envelope);
+        osc.connect(gainNode);
+
+//        gainNode.connect(context.destination);
+//        gainNode.connect(context.destination);// envelope );
+        envelope.connect(context.destination);
+
+//        osc.start();
+//        osc.stop( context.currentTime + 3   );
+
+        envelope.gain.setValueAtTime(0.0, context.currentTime);
+        envelope.gain.linearRampToValueAtTime(0.01, context.currentTime + 1);
+        envelope.gain.linearRampToValueAtTime(1, context.currentTime + 2);
+        envelope.gain.linearRampToValueAtTime(0.0, context.currentTime + 2.5);
+
+        noise_node.start();
+        noise_node.stop( context.currentTime + 3   );
+    }
+ -->
+
+
+ <!-- VIBRATO WITH ENVELOPE
+        var context = new AudioContext();
+        function play() {
+            var gainNode = context.createGain();
+            var tone = context.createOscillator();
+            tone.type = 'square';
+            tone.frequency.setValueAtTime(440, context.currentTime); // value in hertz
+
+            var osc = context.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(1, context.currentTime); // value in hertz
+//            var gain = context.createGain();
+            osc.connect(gainNode);
+//            gain.connect(gainNode);
+
+            tone.connect(gainNode);
+
+            gainNode.gain.setValueAtTime(0.0, context.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.01, context.currentTime + 1);
+            gainNode.gain.linearRampToValueAtTime(1, context.currentTime + 2);
+            gainNode.gain.linearRampToValueAtTime(0.0, context.currentTime + 2.5);
+                
+            gainNode.connect(context.destination);
+            
+            osc.start();
+            osc.stop( context.currentTime + 3   );
+            
+            tone.start();
+            tone.stop( context.currentTime + 3   );
+        }
+ -->
+
+
+ <!-- FLANGE
+        var context = new AudioContext();
+        function play() {
+            var tone = context.createOscillator();
+            tone.type = 'square';
+            tone.frequency.setValueAtTime(440, context.currentTime); // value in hertz
+            
+            var delay_time = document.getElementById("delay_time").value;
+            var frequency = document.getElementById("frequency").value;
+            var feedback_volume = document.getElementById("feedback_volume").value;
+            var depth = document.getElementById("depth").value;
+            
+            var delayNode = context.createDelay();
+            delayNode.delayTime.value = parseFloat( delay_time );
+            fldelay = delayNode;
+
+            var inputNode = context.createGain();
+            var feedback = context.createGain();
+            var osc = context.createOscillator();
+            var gain = context.createGain();
+            gain.gain.value = parseFloat( depth );
+            fldepth = gain;
+
+            feedback.gain.value = parseFloat( feedback_volume );
+            flfb = feedback;
+
+            osc.type = osc.SINE;
+            osc.frequency.value = parseFloat( frequency );
+            flspeed = osc;
+
+            osc.connect(gain);
+            gain.connect(delayNode.delayTime);
+
+            inputNode.connect( delayNode );
+            delayNode.connect( feedback );
+            feedback.connect( inputNode );
+
+            osc.start(0);
+
+            tone.connect(delayNode);
+            inputNode.connect(context.destination);
+            tone.start();
+            tone.stop( context.currentTime + 1   );
+        
+        }
+
+ -->
