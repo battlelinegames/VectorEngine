@@ -1,5 +1,10 @@
 import { Input } from "./Input";
 
+export { Input, KEY } from "./Input";
+export { Char } from "./Char";
+export { DisplayNum } from "./DisplayNum";
+
+
 export enum RENDER_TYPE {
 	POINTS = 0x0000,
 	LINES = 0x0001,

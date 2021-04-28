@@ -2,7 +2,9 @@
   "name": "vectorengine",
   "version": "1.0.6",
   "description": "This is a minimal WebGL vector rendering engine written for AssemblyScript.  ",
-  "main": "index.js",
+  "main": "VectorEngine.js",
+  "types": "VectorEngine.ts",
+  "ascMain": "VectorEngine.ts",
   "scripts": {
     "test": "dev",
     "build": "node build.js"
