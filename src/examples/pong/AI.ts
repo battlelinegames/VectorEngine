@@ -1,4 +1,4 @@
-import { renderLoop, RENDER_TYPE } from '../../engine/VectorEngine';
+import { renderLoop, RENDER_TYPE } from '../../engine/vectorengine';
 import { Collider } from './Collider';
 import { Ball } from './Ball';
 

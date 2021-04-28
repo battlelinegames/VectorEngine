@@ -1,4 +1,4 @@
-import { renderLine } from './VectorEngine';
+import { renderLine } from './vectorengine';
 
 export class Char {
   public static SPACE: u32 = 100;

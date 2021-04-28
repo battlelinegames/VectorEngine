@@ -1,5 +1,5 @@
-import { playSFX } from '../../engine/VectorEngine';
-import { renderLoop, RENDER_TYPE } from '../../engine/VectorEngine';
+import { playSFX } from '../../engine/vectorengine';
+import { renderLoop, RENDER_TYPE } from '../../engine/vectorengine';
 import { Collider } from './Collider';
 import { d1, d2 } from './pong';
 import { bounceSound, lostSound, wonSound } from './sounds';

@@ -3,6 +3,7 @@ import { Input } from "./Input";
 export { Input, KEY } from "./Input";
 export { Char } from "./Char";
 export { DisplayNum } from "./DisplayNum";
+export { DisplayString } from "./DisplayString";
 
 
 export enum RENDER_TYPE {
@@ -45,12 +46,3 @@ Input.canvasHeight = canvasHeight;
 
 declare function renderLineData(line_data_pointer: usize, len: u32,
 	x: f32, y: f32, rot: f32, scale: f32, color: u32, type: RENDER_TYPE): void;
-
-/*
-export function preUpdate(): void {
-	Input.set();
-}
-
-export function postUpdate(): void {
-}
-*/
