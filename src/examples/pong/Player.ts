@@ -1,7 +1,7 @@
 import { Input } from '../../engine/Input';
-import { renderLoop, RENDER_TYPE } from '../../engine/vectorengine';
+import { renderLoop, RENDER_TYPE } from '../../engine/VectorEngine';
 import { Collider } from './Collider';
-import { logf32 } from '../../engine/vectorengine';
+import { logf32 } from '../../engine/VectorEngine';
 
 export class Player extends Collider {
   color: i32 = 0x00_ff_00_ff;

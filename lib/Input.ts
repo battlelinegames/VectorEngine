@@ -1,4 +1,4 @@
-import { logi32, logf32, mouseX, mouseY } from './vectorengine';
+import { logi32, logf32, mouseX, mouseY } from './VectorEngine';
 
 @external("VectorEngine", "setInputPtrs")
 declare function setInputPtrs(k_ptr: usize,

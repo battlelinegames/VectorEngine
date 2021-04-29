@@ -3,7 +3,7 @@ import { Ball } from './Ball';
 import { Player } from './Player';
 import { Input } from '../../engine/Input';
 import { Char } from '../../engine/Char';
-import { logf32, logi32 } from '../../engine/vectorengine';
+import { logf32, logi32 } from '../../engine/VectorEngine';
 import { bounceSound } from './sounds';
 import { DisplayString } from '../../engine/DisplayString';
 

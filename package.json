@@ -5,7 +5,7 @@
   "main": "VectorEngine.js",
   "scripts": {
     "test": "dev",
-    "build": "node build.js"
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
