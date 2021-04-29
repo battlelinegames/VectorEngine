@@ -1,0 +1,10 @@
+node_modules/
+notes/
+src/
+junk/
+
+gitrun.sh
+server.js
+notes.txt
+asc.d.ts
+patch.sh
