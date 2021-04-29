@@ -5,10 +5,15 @@ const min = require('node-minify');
 //const imagemin = require('imagemin');
 //const imageminPngQuant = require('imagemin-pngquant');
 
+
+
 fs.readdir('./src/engine', (err, files) => {
   files.forEach(file => {
-    if (path.extname(file) === '.ts') {
-      fs.copyFileSync('./src/engine/' + file, './lib/' + path.basename(file));
+    if (file === 'VectorEngine.ts') {
+      fs.copyFileSync('./src/engine/' + file, './index.ts');
+    }
+    else if (path.extname(file) === '.ts') {
+      fs.copyFileSync('./src/engine/' + file, './' + path.basename(file));
     }
     if (path.extname(file) === '.js') {
       min.minify({

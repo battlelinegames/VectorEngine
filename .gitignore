@@ -7,4 +7,5 @@ server.js
 notes.txt
 asc.d.ts
 patch.sh
+publish.sh
 .npmignore
