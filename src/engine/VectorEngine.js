@@ -513,8 +513,7 @@ export function runVectorGame(canvas_id, wasm_file, game_loop_name, memory_pages
 			},
 			memory: memory,
 			seed: Date.now,
-		},
-		VectorEngine: {
+
 			renderLineData: renderLine,
 			canvasWidth: canvas.width,
 			canvasHeight: canvas.height,

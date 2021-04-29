@@ -13,8 +13,13 @@ export enum RENDER_TYPE {
 	LINE_STRIP = 0x0003
 }
 
+@external("env", "logf32")
 export declare function logf32(f: f32): void;
+
+@external("env", "logi32")
 export declare function logi32(i: i32): void;
+
+@external("env", "playSFX")
 export declare function playSFX(wave_type: i32, freq: i32, freq_slide: i32,
 	delay_freq_start_time_pct: f32, delay_freq_mult: f32, vibrato_time: f32,
 	vibrato_shift_time: f32, vibrato_freq: i32, vibrato_wave_type: i32,
@@ -23,11 +28,12 @@ export declare function playSFX(wave_type: i32, freq: i32, freq_slide: i32,
 	attack_punch_volume: f32, duty_cycle_len: f32, duty_cycle_pct: f32,
 	flange_delay_time: f32, flange_feedback_volume: f32, gain: f32,
 	noise_detune: i32, noise_detune_slide: i32, slide_type: i32): void;
+
 export declare const canvasWidth: i32;
 export declare const canvasHeight: i32;
 
-export declare var mouseX: i32;
-export declare var mouseY: i32;
+// export declare var mouseX: i32;
+// export declare var mouseY: i32;
 
 Input.canvasWidth = canvasWidth;
 Input.canvasHeight = canvasHeight;
@@ -44,5 +50,6 @@ Input.canvasHeight = canvasHeight;
 		x, y, rot, scale, color, RENDER_TYPE.LINE_STRIP);
 }
 
+@external("env", "renderLineData")
 declare function renderLineData(line_data_pointer: usize, len: u32,
 	x: f32, y: f32, rot: f32, scale: f32, color: u32, type: RENDER_TYPE): void;
