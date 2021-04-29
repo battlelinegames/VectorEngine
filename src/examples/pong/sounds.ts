@@ -1,4 +1,4 @@
-import { playSFX } from '../../engine/VectorEngine';
+import { playSFX } from '../../engine/index';
 
 enum WAVE {
   SQUARE = 0,

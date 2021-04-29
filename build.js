@@ -8,11 +8,14 @@ const min = require('node-minify');
 
 
 fs.readdir('./src/engine', (err, files) => {
+
   files.forEach(file => {
+    /*
     if (file === 'VectorEngine.ts') {
       fs.copyFileSync('./src/engine/' + file, './index.ts');
     }
-    else if (path.extname(file) === '.ts') {
+    else */
+    if (path.extname(file) === '.ts') {
       fs.copyFileSync('./src/engine/' + file, './' + path.basename(file));
     }
     if (path.extname(file) === '.js') {
