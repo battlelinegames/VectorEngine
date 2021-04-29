@@ -18,19 +18,16 @@ fs.readdir('./src/engine', (err, files) => {
     if (path.extname(file) === '.ts') {
       fs.copyFileSync('./src/engine/' + file, './' + path.basename(file));
     }
-    if (path.extname(file) === '.js') {
-      min.minify({
-        compressor: 'gcc',
-        input: './src/engine/VectorEngine.js',
-        output: './lib/VectorEngine.js',
-        callback: () => { }
-      })
-    }
   });
 });
 
+fs.copyFileSync('./src/engine/VectorEngine.js', './lib/VectorEngine.js');
+.copyFileSync('./src/engine/VectorEngine.js', './lib/VectorEngine.min.js');
+
+/*
 fs.readdir('./src/examples/helloworld', (err, files) => {
   files.forEach(file => {
     fs.copyFileSync('./src/examples/helloworld/' + file, './bin/' + path.basename(file));
   });
 });
+*/
