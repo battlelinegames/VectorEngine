@@ -32,8 +32,8 @@ export declare function playSFX(wave_type: i32, freq: i32, freq_slide: i32,
 export declare const canvasWidth: i32;
 export declare const canvasHeight: i32;
 
-// export declare var mouseX: i32;
-// export declare var mouseY: i32;
+export declare var mouseX: i32;
+export declare var mouseY: i32;
 
 Input.canvasWidth = canvasWidth;
 Input.canvasHeight = canvasHeight;
