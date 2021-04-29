@@ -22,7 +22,7 @@ fs.readdir('./src/engine', (err, files) => {
 });
 
 fs.copyFileSync('./src/engine/VectorEngine.js', './lib/VectorEngine.js');
-.copyFileSync('./src/engine/VectorEngine.js', './lib/VectorEngine.min.js');
+fs.copyFileSync('./src/engine/VectorEngine.js', './lib/VectorEngine.min.js');
 
 /*
 fs.readdir('./src/examples/helloworld', (err, files) => {
