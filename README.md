@@ -8,6 +8,6 @@ npm i vectorengine
 
 If you have any questions, you can contact me on the following social media:
 
-twitter: [@battagline](https://twitter.com/battagline)
-linkedin: [linkedin.com/in/battagline](https://linkedin.com/in/battagline)
-assemblyscript discord: [@battagline](https://discord.gg/assemblyscript)
+twitter: [@battagline](https://twitter.com/battagline)<br>
+linkedin: [linkedin.com/in/battagline](https://linkedin.com/in/battagline)<br>
+assemblyscript discord: [@battagline](https://discord.gg/assemblyscript)<br>
