@@ -1,5 +1,4 @@
 import { DisplayString, renderLoop } from '../../engine/index';
-// /vectorengine/lib/vectorengine.ts';
 
 const wasmBook = new DisplayString("WasmBook.com", 0.0, 0.3, 0.04, 0xff_ff_00_ff);
 const red: u32 = 0xff_00_00_ff;
