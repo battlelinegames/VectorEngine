@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/battlelinegames/VectorEngine/issues"
   },
-  "homepage": "https://github.com/battlelinegames/VectorEngine#readme",
+  "homepage": "https://wasmbook.com",
   "devDependencies": {
     "assemblyscript": "^0.18.28",
     "connect": "^3.7.0",

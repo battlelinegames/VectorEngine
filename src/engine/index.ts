@@ -29,10 +29,14 @@ export declare function playSFX(wave_type: i32, freq: i32, freq_slide: i32,
 	flange_delay_time: f32, flange_feedback_volume: f32, gain: f32,
 	noise_detune: i32, noise_detune_slide: i32, slide_type: i32): void;
 
+@external("env", "canvasWidth")
 export declare const canvasWidth: i32;
+@external("env", "canvasHeight")
 export declare const canvasHeight: i32;
 
+@external("env", "mouseX")
 export declare var mouseX: i32;
+@external("env", "mouseY")
 export declare var mouseY: i32;
 
 Input.canvasWidth = canvasWidth;
