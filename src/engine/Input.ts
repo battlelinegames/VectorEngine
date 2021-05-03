@@ -9,7 +9,7 @@ declare function setInputPtrs(k_ptr: usize,
 export enum KEY {
 	BACKSPACE = 8, TAB = 9, ENTER = 13,
 	SHIFT = 16, CTRL = 17, ALT = 18, CAPS = 20,
-	ESC = 27, SPACE = 32,
+	ESC = 27, SPACE = 32, MINUS = 45,
 	LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40,
 	NUM0 = 48, NUM1 = 49, NUM2 = 50,
 	NUM3 = 51, NUM4 = 52, NUM5 = 53,

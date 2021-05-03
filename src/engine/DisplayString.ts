@@ -1,4 +1,5 @@
 import { Char } from './Char';
+import { KEY } from './Input';
 
 export class DisplayString {
   charArray: StaticArray<Char>;
@@ -24,6 +25,16 @@ export class DisplayString {
       this.charArray[i].color = color;
       this.charArray[i].scale = scale;
       cx += scale * 2.0;
+    }
+  }
+
+  overwrite(str: string): void {
+    for (let i: i32 = 0; i < this.charArray.length; i++) {
+      if (i >= str.length) {
+        this.charArray[i].charCode = KEY.SPACE;
+        continue;
+      }
+      this.charArray[i].charCode = str.charCodeAt(i);
     }
   }
 

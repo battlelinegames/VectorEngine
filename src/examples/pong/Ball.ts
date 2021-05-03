@@ -56,7 +56,11 @@ export class Ball extends Collider {
 
     if (this.x < -1.0 || this.x > 1.0) {
       bounceSound();
-      this.xvel = -this.xvel;
+      if ((this.x < -1.0 && this.xvel < 0.0) ||
+        (this.x > 1.0 && this.xvel > 0.0)) {
+        this.xvel = -this.xvel;
+      }
+
     }
     if (this.y < -1.0 || this.y > 1.0) {
       if (this.y < -1.0) {

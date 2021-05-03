@@ -1,0 +1,27 @@
+<html>
+
+<head>
+  <style>
+    body {
+      background-color: #3b3b3b;
+      text-align: center;
+      margin: 0px;
+    }
+
+    canvas {
+      margin: 0px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <canvas width="640" height="640" id="cnvs"></canvas>
+  <script type="module">
+    import { runVectorGame } from "./VectorEngine.min.js";
+
+    runVectorGame("cnvs", "Game.wasm", "gameLoop");
+  </script>
+</body>
+
+</html>
