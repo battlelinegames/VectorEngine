@@ -36,6 +36,9 @@ export class InvaderSmall extends InvaderObj {
   lefteye_layer: StaticArray<f32> = [-0.25, 0.5, -0.375, 0.375, -0.25, 0.25, -0.125, 0.375,];
   righteye_layer: StaticArray<f32> = [0.125, 0.375, 0.25, 0.5, 0.375, 0.375, 0.2578125, 0.2421875,];
 
+  mouth_layer: StaticArray<f32> = [0.25, -0.125, -0.25, -0.125, -0.046875, -0.328125, 0.046875, -0.328125,];
+
+
   constructor() {
     super();
     this.hw = 0.95 * this._scale;
@@ -52,6 +55,7 @@ export class InvaderSmall extends InvaderObj {
     }
     else {
       renderLoop(this.frame2, this.x, this.y, this.color, 0.0, 0.05);
+      renderLoop(this.mouth_layer, this.x, this.y, this.color, 0.0, 0.05);
     }
     renderLoop(this.lefteye_layer, this.x, this.y, this.color, 0.0, 0.05);
     renderLoop(this.righteye_layer, this.x, this.y, this.color, 0.0, 0.05);
