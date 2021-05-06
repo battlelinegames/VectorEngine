@@ -1,6 +1,18 @@
 # VectorEngine
 
-VectorEngine is an [AssemblyScript](https://assemblyscript.org) & [WebAssembly](https://webassembly.org) vector rendering engine.  I designed it with the goal of making a super simple rendering engine that can be used by anyone to write WebAssembly games using AssemblyScript.  Tutorials are available on [wasmbook.com](https://wasmbook.com).  You can install VectorEngine using npm:
+VectorEngine is an [AssemblyScript](https://assemblyscript.org) & [WebAssembly](https://webassembly.org) vector rendering engine.  I designed it with the goal of making a super simple rendering engine that can be used by anyone to write WebAssembly games using AssemblyScript.  Tutorials are available on [wasmbook.com](https://wasmbook.com).  
+
+## Tutorials
+- [Vector Engine Into Video Tutorial](https://wasmbook.com/blog/AssemblyScriptVEVTutorial)
+- [Vector Engine Intro](https://wasmbook.com/blog/VectorEngine)
+- [Vector Engine AssemblyScript Class Tutorial](https://wasmbook.com/blog/VectorEngineClasses)
+- [Vector Engine Mouse Input Tutorial](https://wasmbook.com/blog/VectorEngineMouse)
+
+## Example Games
+- [AssemblyScript Invaders](https://wasmbook.com/apps/invaders/)
+- [AssemblyScript Ping Pong](https://wasmbook.com/pong/pong.html)
+
+You can install VectorEngine using npm:
 
 ```
 npm i vectorengine
