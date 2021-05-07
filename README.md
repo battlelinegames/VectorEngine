@@ -5,8 +5,9 @@ VectorEngine is an [AssemblyScript](https://assemblyscript.org) & [WebAssembly](
 ## Tutorials
 - [Vector Engine Into Video Tutorial](https://wasmbook.com/blog/AssemblyScriptVEVTutorial)
 - [Vector Engine Intro](https://wasmbook.com/blog/VectorEngine)
-- [Vector Engine AssemblyScript Class Tutorial](https://wasmbook.com/blog/VectorEngineClasses)
-- [Vector Engine Mouse Input Tutorial](https://wasmbook.com/blog/VectorEngineMouse)
+- [AssemblyScript Class Tutorial](https://wasmbook.com/blog/VectorEngineClasses)
+- [Mouse Input Tutorial](https://wasmbook.com/blog/VectorEngineMouse)
+- [Keyboard Input Tutorial](https://wasmbook.com/blog/AssemblyScriptVEKeyboard)
 
 ## Example Games
 - [AssemblyScript Invaders](https://wasmbook.com/apps/invaders/)
