@@ -1,4 +1,5 @@
 import { logi32, logf32, mouseX, mouseY } from './index';
+import { Clickable } from './Clickable';
 
 @external("env", "setInputPtrs")
 declare function setInputPtrs(k_ptr: usize,
@@ -40,6 +41,10 @@ export class Input {
 	public static mouseYAddress: usize = 0;
 
 	public static KeyArray: StaticArray<bool> = new StaticArray<bool>(100);
+
+
+	private static _clickableCount: u32 = 0;
+	private static _ClickableArray: StaticArray<Clickable> = new StaticArray<Clickable>(1024);
 
 	public static get MouseX(): f32 {
 		return 2.0 * (<f32>(load<i32>(Input.mouseXAddress)) / <f32>Input.canvasWidth) - 1.0;

@@ -1,7 +1,12 @@
+import { GameObject } from './GameObject';
 import { renderLine } from './index';
 
-export class Char {
+export class Char implements GameObject {
   public static SPACE: u32 = 100;
+  // I need to figure out how to replace the data below with an i8 memory.data block
+  // memory.data<i8>([100, 99, 33, -8], alignment); 
+  // I think I am going to have a length byte followed by the x y data, then 
+  // another length byte.
   private charData: StaticArray<StaticArray<f32>> =
     [
       [-0.5, -0.75, 0.5, 0.75, 0.375, 0.875, -0.375, 0.875,
