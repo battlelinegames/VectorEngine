@@ -1,12 +1,23 @@
-import { Renderable } from "./Renderable";
+import { RenderableObject } from "./RenderableObject";
+import { VectorEngine } from "./VectorEngine";
 
-export abstract class GameObject implements Renderable {
-  x: f32;
-  y: f32;
-  rotation: f32;
-  scale: f32;
-  visible: bool;
+export abstract class GameObject extends RenderableObject { //implements Movable, Renderable {
+  constructor() {
+    super();
+    if (VectorEngine.SN != null) {
+      VectorEngine.SN.addMovable(this);
+    }
+    this.active = true;
+  }
 
-  abstract render(): void;
+  protected _active: bool;
+  get active(): bool {
+    return this._active;
+  }
+  set active(val: bool) {
+    this._active = val;
+  }
+
   abstract move(): void;
+  abstract render(): void;
 }

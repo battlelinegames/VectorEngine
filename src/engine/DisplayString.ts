@@ -1,15 +1,15 @@
 import { Char } from './Char';
 import { KEY } from './Input';
+import { RenderableObject } from './RenderableObject';
+import { VectorEngine } from './VectorEngine';
 
-export class DisplayString {
+export class DisplayString extends RenderableObject {
   charArray: StaticArray<Char>;
-  private _color: u32 = 0xff_ff_ff_ff;
-  private _x: f32;
-  private _y: f32;
-  private _scale: f32;
+  protected _color: u32 = 0xff_ff_ff_ff;
 
   constructor(str: String, x: f32, y: f32,
     scale: f32, color: u32 = 0xff_ff_ff_ff) {
+    super();
     const len = str.length;
     this._x = x;
     this._y = y;
@@ -26,6 +26,8 @@ export class DisplayString {
       this.charArray[i].scale = scale;
       cx += scale * 2.0;
     }
+    this.visible = true;
+    VectorEngine.SN.addRenderable(this);
   }
 
   overwrite(str: string): void {
@@ -38,9 +40,9 @@ export class DisplayString {
     }
   }
 
-  set x(val: f32) {
+  @inline set x(val: f32) {
     let len = this.charArray.length;
-    let cx = val - <f32>len * this._scale + this._scale / 2.0;
+    let cx = val - <f32>(len - 1) * this._scale + this._scale / 2.0;
     this._x = val;
 
     for (let i: i32 = 0; i < len; i++) {
@@ -49,19 +51,12 @@ export class DisplayString {
     }
   }
 
-  @inline get x(): f32 {
-    return this._x;
-  }
-
-  set y(val: f32) {
+  @inline set y(val: f32) {
     let len = this.charArray.length;
     this._y = val;
     for (let i: i32 = 0; i < len; i++) {
       this.charArray[i].y = val;
     }
-  }
-  @inline get y(): f32 {
-    return this._y;
   }
 
   set color(val: u32) {
@@ -75,7 +70,7 @@ export class DisplayString {
     return this._color;
   }
 
-  set scale(val: f32) {
+  @inline set scale(val: f32) {
     let len = this.charArray.length;
     this._scale = val;
     for (let i: i32 = 0; i < len; i++) {
@@ -92,7 +87,19 @@ export class DisplayString {
     return this._scale;
   }
 
+  @inline get visible(): bool {
+    return this._visible;
+  }
+
+  @inline set visible(val: bool) {
+    this._visible = val;
+  }
+
   @inline public render(): void {
+    if (this._visible == false) {
+      return;
+    }
+
     let len = this.charArray.length;
     for (let i: i32 = 0; i < len; i++) {
       this.charArray[i].render();

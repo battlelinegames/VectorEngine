@@ -1,7 +1,7 @@
-import { GameObject } from './GameObject';
 import { renderLine } from './index';
+import { RenderableObject } from './RenderableObject';
 
-export class Char implements GameObject {
+export class Char extends RenderableObject {
   public static SPACE: u32 = 100;
   // I need to figure out how to replace the data below with an i8 memory.data block
   // memory.data<i8>([100, 99, 33, -8], alignment); 
@@ -97,12 +97,9 @@ export class Char implements GameObject {
         0.046875, -0.796875, 0.75, 0, 0.046875, 0.796875,],// array #39 ASCII #62
     ];
 
-  visible: bool = false;
   color: u32 = 0xff_ff_ff_ff;
-  x: f32 = 0.0;
-  y: f32 = 0.0;
-  scale: f32 = 0.0;
   rotation: f32 = 0.0;
+
   private index: u32 = 0;
 
   @inline public render(): void {

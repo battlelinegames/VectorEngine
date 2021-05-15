@@ -1,11 +1,10 @@
 import { logi32, logf32, mouseX, mouseY } from './index';
-import { Clickable } from './Clickable';
+import { ClickableGameObject } from './ClickableGameObject';
 
 @external("env", "setInputPtrs")
-declare function setInputPtrs(k_ptr: usize,
-	mld_ptr: usize, mrd_ptr: usize, mmd_ptr: usize,
-	mlu_ptr: usize, mru_ptr: usize, mmu_ptr: usize,
-	mx_ptr: usize, my_ptr: usize): void;
+declare function setInputPtrs(keyboard_ptr: usize,
+	mouse_down_ptr: usize, mouse_up_ptr: usize,
+	mouse_x_ptr: usize, mouse_y_ptr: usize): void;
 
 export enum KEY {
 	BACKSPACE = 8, TAB = 9, ENTER = 13,
@@ -30,12 +29,9 @@ export class Input {
 	public static keyInputSize: usize = 100;
 	public static inputMemoryAddress: usize = 0;
 	public static keyAddress: usize = 0;
-	public static mouseLeftDownAddress: usize = 0;
-	public static mouseRightDownAddress: usize = 0;
-	public static mouseMiddleDownAddress: usize = 0;
-	public static mouseLeftUpAddress: usize = 0;
-	public static mouseRightUpAddress: usize = 0;
-	public static mouseMiddleUpAddress: usize = 0;
+
+	public static mouseDownAddress: usize = 0;
+	public static mouseUpAddress: usize = 0;
 
 	public static mouseXAddress: usize = 0;
 	public static mouseYAddress: usize = 0;
@@ -44,7 +40,7 @@ export class Input {
 
 
 	private static _clickableCount: u32 = 0;
-	private static _ClickableArray: StaticArray<Clickable> = new StaticArray<Clickable>(1024);
+	private static _ClickableArray: StaticArray<ClickableGameObject> = new StaticArray<ClickableGameObject>(1024);
 
 	public static get MouseX(): f32 {
 		return 2.0 * (<f32>(load<i32>(Input.mouseXAddress)) / <f32>Input.canvasWidth) - 1.0;
@@ -55,13 +51,13 @@ export class Input {
 
 
 	public static get MouseLeftButton(): bool {
-		return load<bool>(Input.mouseLeftDownAddress);
+		return load<bool>(Input.mouseDownAddress);
 	}
 	public static get MouseRightButton(): bool {
-		return load<bool>(Input.mouseRightDownAddress);
+		return load<bool>(Input.mouseDownAddress + 2);
 	}
 	public static get MouseMiddleButton(): bool {
-		return load<bool>(Input.mouseMiddleDownAddress);
+		return load<bool>(Input.mouseDownAddress + 1);
 	}
 
 
@@ -79,13 +75,8 @@ export class Input {
 
 		Input.keyAddress = Input.inputMemoryAddress;
 
-		Input.mouseLeftDownAddress = Input.inputMemoryAddress + Input.keyInputSize;
-		Input.mouseMiddleDownAddress = Input.inputMemoryAddress + Input.keyInputSize + 1;
-		Input.mouseRightDownAddress = Input.inputMemoryAddress + Input.keyInputSize + 2;
-
-		Input.mouseLeftUpAddress = Input.inputMemoryAddress + Input.keyInputSize + 3;
-		Input.mouseRightUpAddress = Input.inputMemoryAddress + Input.keyInputSize + 4;
-		Input.mouseMiddleUpAddress = Input.inputMemoryAddress + Input.keyInputSize + 5;
+		Input.mouseDownAddress = Input.inputMemoryAddress + Input.keyInputSize;
+		Input.mouseUpAddress = Input.inputMemoryAddress + Input.keyInputSize + 3;
 
 		Input.mouseXAddress = Input.inputMemoryAddress + Input.keyInputSize + 8;
 		Input.mouseYAddress = Input.inputMemoryAddress + Input.keyInputSize + 12;
@@ -96,12 +87,9 @@ export class Input {
 		}
 
 		setInputPtrs(Input.keyAddress,
-			Input.mouseLeftDownAddress,
-			Input.mouseRightDownAddress,
-			Input.mouseMiddleDownAddress,
-			Input.mouseLeftUpAddress,
-			Input.mouseRightUpAddress,
-			Input.mouseMiddleUpAddress,
+			Input.mouseDownAddress,
+			Input.mouseUpAddress,
+
 			Input.mouseXAddress, Input.mouseYAddress)
 	}
 
