@@ -1,27 +1,19 @@
-import { DisplayString } from '../../engine/DisplayString';
+import { Input, VectorEngine, Button, DisplayString } from 'vectorengine';
 
-const helloWorld = new DisplayString("Hello World", 0.0, 0.3, 0.05, 0x00_ff_00_ff);
-const assemblyScript = new DisplayString("AssemblyScript", 0.0, -0.3, 0.05, 0xff_ff_00_ff);
+export { VectorEngineExports } from 'vectorengine';
+VectorEngine.init();
 
-let scale: f32 = 0.05;
-let scale_change: f32 = 0.001;
-let timeChange: f32 = -2.0;
-const TWO_PI: f32 = 6.28318;
+const white: u32 = 0xff_ff_ff_ff;
 
-export function gameLoop(delta: i32): void {
-  timeChange += <f32>delta / 1000.0;
-  if (timeChange > TWO_PI) {
-    timeChange -= TWO_PI;
+var text = new DisplayString("hello world", 0.0, 0.3, 0.05, white);
+
+let time_count: f32 = 0.0;
+
+export function gameLogic(delta: i32): void {
+  time_count += <f32>delta / 1000.0;
+  // put your game logic here
+  text.y += time_count;
+  if (text.y >= 1.05) {
+    text.y = -1.05;
   }
-
-  scale = (Mathf.cos(timeChange) + 1.05) / 25.0;
-
-  helloWorld.scale = scale;
-  helloWorld.render();
-
-  scale = (Mathf.sin(timeChange) + 1.1) / 35.0;
-
-  assemblyScript.scale = scale;
-  assemblyScript.render();
-
 }
