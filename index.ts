@@ -19,12 +19,12 @@ export enum RENDER_TYPE {
 
 export namespace VectorEngineExports {
   export function preUpdate(): void {
+    VectorEngine.renderAll();
     VectorEngine.clickCheck();
     VectorEngine.moveAll();
   }
 
   export function postUpdate(): void {
-    VectorEngine.renderAll();
   }
 }
 
