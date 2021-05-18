@@ -42,6 +42,7 @@ var package_json = `
     "connect": "^3.7.0",
     "connect-livereload": "^0.6.1",
     "express": "^4.17.1",
+    "chalk": "^3.0.0",
     "livereload": "^0.9.3",
     "open": "^8.0.9",
     "serve-static": "^1.14.1"
