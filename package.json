@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "assemblyscript": "^0.18.28",
+    "chalk": "^3.0.0",
     "connect": "^3.7.0",
     "connect-livereload": "^0.6.1",
     "express": "^4.17.1",
