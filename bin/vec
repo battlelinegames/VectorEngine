@@ -38,7 +38,7 @@ var package_json = `
   },
   "homepage": "https://wasmbook.com",
   "dependencies": {
-    "vectorengine": "^1.1.4",
+    "vectorengine": "^1.1.7",
     "assemblyscript": "^0.18.28",
     "connect": "^3.7.0",
     "connect-livereload": "^0.6.1",

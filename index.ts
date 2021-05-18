@@ -3,7 +3,6 @@ import { VectorEngine } from "./VectorEngine";
 
 export { Input, KEY } from "./Input";
 export { Char } from "./Char";
-export {COLOR} from "./Colors";
 export { DisplayNum } from "./DisplayNum";
 export { DisplayString } from "./DisplayString";
 export { Button } from "./Button";
