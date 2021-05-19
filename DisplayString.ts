@@ -13,7 +13,10 @@ export class DisplayString extends RenderableObject {
     const len = str.length;
     this._x = x;
     this._y = y;
-    let cx = x - <f32>len * scale + scale / 2.0;
+    let cx = x - <f32>(len-1) * scale;
+    if( (len & 1) == 1 ) {
+      cx += scale / 2.0;
+    }
     this._color = color;
     this._scale = scale;
     this.charArray = new StaticArray<Char>(len);
@@ -42,7 +45,10 @@ export class DisplayString extends RenderableObject {
 
   @inline set x(val: f32) {
     let len = this.charArray.length;
-    let cx = val - <f32>(len - 1) * this._scale + this._scale / 2.0;
+    let cx = val - <f32>(len - 1) * this._scale;
+    if( (len & 1) == 1 ) {
+      cx += this._scale / 2.0;
+    }
     this._x = val;
 
     for (let i: i32 = 0; i < len; i++) {

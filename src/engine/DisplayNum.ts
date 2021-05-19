@@ -7,7 +7,7 @@ export enum ALIGN {
   RIGHT
 }
 */
-export class DisplayNum {
+export class DisplayNum extends RenderableObject { {
   charArray: StaticArray<Char>;
   // I DON'T CURRENTLY SUPPORT NEGATIVE NUMBERS
   private _num: i32;
@@ -113,6 +113,10 @@ export class DisplayNum {
   }
 
   @inline public render(): void {
+    if( this.visible == false ) {
+      return;
+    }
+    
     let len = this.charArray.length;
     for (let i: i32 = 0; i < len; i++) {
       this.charArray[i].render();

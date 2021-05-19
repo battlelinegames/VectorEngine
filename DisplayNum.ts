@@ -1,4 +1,5 @@
 import { Char } from './Char';
+import { RenderableObject } from './RenderableObject';
 
 /*
 export enum ALIGN {
@@ -7,7 +8,7 @@ export enum ALIGN {
   RIGHT
 }
 */
-export class DisplayNum {
+export class DisplayNum extends RenderableObject {
   charArray: StaticArray<Char>;
   // I DON'T CURRENTLY SUPPORT NEGATIVE NUMBERS
   private _num: i32;
@@ -19,6 +20,7 @@ export class DisplayNum {
 
   constructor(num: i32, digits: i32, x: f32, y: f32,
     scale: f32, color: u32 = 0xff_ff_ff_ff) {
+    super();
     let len = digits;
     if (digits > 9) {
       // this is too large
@@ -47,7 +49,7 @@ export class DisplayNum {
   }
 
   set num(num: i32) {
-
+    this._num = num;
     for (let i: i32 = this._len - 1; i >= 0; i--) {
       this.charArray[i].num = num % 10;
       num /= 10;
@@ -113,6 +115,9 @@ export class DisplayNum {
   }
 
   @inline public render(): void {
+    if( this._visible == false ) {
+      return;
+    }
     let len = this.charArray.length;
     for (let i: i32 = 0; i < len; i++) {
       this.charArray[i].render();
