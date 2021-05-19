@@ -58,6 +58,7 @@ export class Button extends ClickableGameObject {
 
   @inline set visible(val: bool) {
     this._visible = val;
+    this.label.visible = false;
   }
 
   constructor(label_str: string, x: f32, y: f32, scale: f32,
