@@ -5,6 +5,7 @@
   "main": "index.ts",
   "ascMain": "index.ts",
   "scripts": {
+    "vec": "node bin/vec",
     "test": "dev",
     "build": "rollup -c"
   },
