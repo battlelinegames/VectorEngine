@@ -1,4 +1,5 @@
 import { Char } from './Char';
+import { RenderableObject } from './RenderableObject';
 
 /*
 export enum ALIGN {
