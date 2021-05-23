@@ -10,8 +10,9 @@ VectorEngine is an [AssemblyScript](https://assemblyscript.org) & [WebAssembly](
 - [Keyboard Input Tutorial](https://wasmbook.com/blog/AssemblyScriptVEKeyboard)
 
 ## Example Games
-- [AssemblyScript Invaders](https://wasmbook.com/apps/invaders/)
-- [AssemblyScript Ping Pong](https://wasmbook.com/pong/pong.html)
+- [AssemblyScript / WebAssembly Tempest](https://wasmbook.com/prologue/)
+- [AssemblyScript / WebAssembly Invaders](https://wasmbook.com/apps/invaders/)
+- [AssemblyScript / WebAssembly Ping Pong](https://wasmbook.com/pong/pong.html)
 
 You can install VectorEngine using npm:
 
