@@ -2,7 +2,8 @@
   "extends": "assemblyscript/std/assembly.json",
   "include": [
     "./src/**/*.ts",
-    "./node_modules/vectorengine/*.ts"
+    "./node_modules/vectorengine/*.ts",
+    "./node_modules/assemblyscript/std/assembly.json"
   ],
   "lib": [
     "asc.d.ts"

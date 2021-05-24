@@ -60,15 +60,21 @@ Input.canvasHeight = canvasHeight;
 @inline export function renderLoop(data: StaticArray<f32>, x: f32, y: f32,
   color: u32 = 0xff_ff_ff_ff, rot: f32 = 0.0, scale: f32 = 1.0): void {
   renderLineData(changetype<usize>(data), data.length,
-    x, y, rot, scale, color, RENDER_TYPE.LINE_LOOP);
+    x, y, rot, scale, scale, color, RENDER_TYPE.LINE_LOOP);
+}
+
+@inline export function renderLoopScaleXY(data: StaticArray<f32>, x: f32, y: f32,
+  color: u32 = 0xff_ff_ff_ff, rot: f32 = 0.0, scale_x: f32 = 1.0, scale_y: f32 = 1.0): void {
+  renderLineData(changetype<usize>(data), data.length,
+    x, y, rot, scale_x, scale_y, color, RENDER_TYPE.LINE_LOOP);
 }
 
 @inline export function renderLine(data: StaticArray<f32>, x: f32, y: f32,
   color: u32 = 0xff_ff_ff_ff, rot: f32 = 0.0, scale: f32 = 1.0): void {
   renderLineData(changetype<usize>(data), data.length,
-    x, y, rot, scale, color, RENDER_TYPE.LINE_STRIP);
+    x, y, rot, scale, scale, color, RENDER_TYPE.LINE_STRIP);
 }
 
 @external("env", "renderLineData")
 declare function renderLineData(line_data_pointer: usize, len: u32,
-  x: f32, y: f32, rot: f32, scale: f32, color: u32, type: RENDER_TYPE): void;
+  x: f32, y: f32, rot: f32, scale_x: f32, scale_y: f32, color: u32, type: RENDER_TYPE): void;

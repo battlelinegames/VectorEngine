@@ -1,78 +1,19 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const {exec, execSync} = require('child_process');
+const { exec, execSync } = require('child_process');
 const fs = require('fs');
 const open = require('open');
 const asc = require("assemblyscript/cli/asc");
 const args = process.argv;
-
-const command = args[2];
-
-var package_json = `
-{
-  "name": "vectorenginetemplate",
-  "version": "1.0.0",
-  "description": "Template code for Vector Engine",
-  "main": "$$$.ts",
-  "ascMain": "index.ts",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/battlelinegames/VectorEngine.git"
-  },
-  "keywords": [
-    "AssemblyScript",
-    "WebAssembly",
-    "Wasm",
-    "WebGL",
-    "Vector",
-    "Rendering"
-  ],
-  "bin": {
-    "vec": "bin/vec"
-  },
-  "author": "Rick Battagline <rick@battagline.com> (https://wasmbook.com)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/battlelinegames/VectorEngine/issues"
-  },
-  "homepage": "https://wasmbook.com",
-  "dependencies": {
-    "vectorengine": "^1.1.7",
-    "assemblyscript": "^0.18.28",
-    "connect": "^3.7.0",
-    "connect-livereload": "^0.6.1",
-    "express": "^4.17.1",
-    "chalk": "^3.0.0",
-    "livereload": "^0.9.3",
-    "open": "^8.0.9",
-    "serve-static": "^1.14.1"
-  }
-}
-`;
-
-const ts_config = `
-{
-  "extends": "assemblyscript/std/assembly.json",
-  "include": [
-    "./src/**/*.ts",
-    "./node_modules/vectorengine/*.ts"
-  ],
-  "lib": [
-    "asc.d.ts"
-  ],
-  "compilerOptions": {
-    "target": "es2020"
-  }
-}
-`;
 
 const js_engine = `
 const V_COLOR_LINE_SHADER = /*glsl*/\`#version 300 es
   precision highp float;
 
   uniform uint u_color;
-  uniform float u_scale;
+  uniform float u_scale_x;
+  uniform float u_scale_y;
   uniform float u_rotation;
   uniform float u_loop_x;
   uniform float u_loop_y;
@@ -81,7 +22,7 @@ const V_COLOR_LINE_SHADER = /*glsl*/\`#version 300 es
   out vec4 c;
   
   void main() {
-    vec2 pos = (position * u_scale);
+    vec2 pos = vec2(position.x * u_scale_x, position.y * u_scale_y);
 
     float cosine = cos(u_rotation);
     float sine = sin(u_rotation);
@@ -126,7 +67,8 @@ var importObject;
 var gl;
 var color_line_program;
 var color_location;
-var scale_location;
+var scale_x_location;
+var scale_y_location;
 var rotation_location;
 var offset_x_location;
 var offset_y_location;
@@ -190,12 +132,13 @@ function clear() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-function renderLine(line_data_pointer, len, x, y, rot, scale, color, type) {
+function renderLine(line_data_pointer, len, x, y, rot, scale_x, scale_y, color, type) {
 	const line_data = new Float32Array(memory.buffer, line_data_pointer, len);
 	gl.bufferData(gl.ARRAY_BUFFER, line_data, gl.DYNAMIC_DRAW);
 
 	gl.uniform1ui(color_location, color);
-	gl.uniform1f(scale_location, scale);
+	gl.uniform1f(scale_x_location, scale_x);
+	gl.uniform1f(scale_y_location, scale_y);
 	gl.uniform1f(rotation_location, rot);
 	gl.uniform1f(offset_x_location, x);
 	gl.uniform1f(offset_y_location, y);
@@ -266,7 +209,7 @@ function getString(string_index) {
 	const U32 = new Uint32Array(buffer);
 	const id_addr = string_index / 4 - 2;
 	const id = U32[id_addr];
-	if (id !== 0x01) throw Error(\`not a string index=\${string_index} id=\${id}\`);
+	if (id !== 0x01) throw Error(\`not a string index = \${ string_index } id = \${ id }\`);
 	const len = U32[id_addr + 1];
 	const str = new TextDecoder('utf-16').decode(buffer.slice(string_index, string_index + len));
 	return str;
@@ -576,9 +519,9 @@ export function runVectorGame(canvas_id, wasm_file, update_name, memory_pages = 
 	importObject = {
 		env: {
 			abort: (msg, file, line, colm) => {
-				console.log(\`\${line}:\${colm}\`);
-				console.log(\`msg: \${getString(msg)}\`);
-				console.log(\`file: \${getString(file)}\`);
+				console.log(\`\${ line }: \${ colm } \`);
+				console.log(\`msg: \${ getString(msg) } \`);
+				console.log(\`file: \${ getString(file) } \`);
 			},
 			memory: memory,
 			seed: Date.now,
@@ -597,13 +540,13 @@ export function runVectorGame(canvas_id, wasm_file, update_name, memory_pages = 
 				mouseXPtr = mouse_x_ptr;
 				mouseYPtr = mouse_y_ptr;
 			},
-			logf32: (f) => console.log(\`f32: \${f}\`),
-			logi32: (i) => console.log(\`i32: \${i}\`),
+			logf32: (f) => console.log(\`f32: \${ f } \`),
+			logi32: (i) => console.log(\`i32: \${ i } \`),
 		}
 	};
 
 	(async () => {
-		console.log(\`wasm_file=\${wasm_file}\`);
+		console.log(\`wasm_file = \${ wasm_file } \`);
 		wasm_obj = await WebAssembly.instantiateStreaming(fetch(wasm_file),
 			importObject);
 
@@ -641,7 +584,8 @@ export function runVectorGame(canvas_id, wasm_file, update_name, memory_pages = 
 	gl.useProgram(color_line_program);
 
 	color_location = gl.getUniformLocation(color_line_program, "u_color");
-	scale_location = gl.getUniformLocation(color_line_program, "u_scale");
+	scale_x_location = gl.getUniformLocation(color_line_program, "u_scale_x");
+	scale_y_location = gl.getUniformLocation(color_line_program, "u_scale_y");
 	rotation_location = gl.getUniformLocation(color_line_program, "u_rotation");
 	offset_x_location = gl.getUniformLocation(color_line_program, "u_loop_x");
 	offset_y_location = gl.getUniformLocation(color_line_program, "u_loop_y");
@@ -654,6 +598,67 @@ export function runVectorGame(canvas_id, wasm_file, update_name, memory_pages = 
 }
 
 `;
+
+const command = args[2];
+
+var package_json = `
+{
+  "name": "vectorenginetemplate",
+  "version": "1.0.0",
+  "description": "Template code for Vector Engine",
+  "main": "$$$.ts",
+  "ascMain": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/battlelinegames/VectorEngine.git"
+  },
+  "keywords": [
+    "AssemblyScript",
+    "WebAssembly",
+    "Wasm",
+    "WebGL",
+    "Vector",
+    "Rendering"
+  ],
+  "bin": {
+    "vec": "bin/vec"
+  },
+  "author": "Rick Battagline <rick@battagline.com> (https://wasmbook.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/battlelinegames/VectorEngine/issues"
+  },
+  "homepage": "https://wasmbook.com",
+  "dependencies": {
+    "vectorengine": "^1.1.7",
+    "assemblyscript": "^0.18.28",
+    "connect": "^3.7.0",
+    "connect-livereload": "^0.6.1",
+    "express": "^4.17.1",
+    "chalk": "^3.0.0",
+    "livereload": "^0.9.3",
+    "open": "^8.0.9",
+    "serve-static": "^1.14.1"
+  }
+}
+`;
+
+const ts_config = `
+{
+  "extends": "assemblyscript/std/assembly.json",
+  "include": [
+    "./src/**/*.ts",
+    "./node_modules/vectorengine/*.ts"
+  ],
+  "lib": [
+    "asc.d.ts"
+  ],
+  "compilerOptions": {
+    "target": "es2020"
+  }
+}
+`;
+
 
 const assemblyscript_code = `
 
@@ -758,109 +763,108 @@ console.log( 'Dev server on localhost:8080' );
 `;
 
 function buildAS() {
-    let package_json = JSON.parse(fs.readFileSync(`./package.json`));
-    let ts_file = package_json.main;
+	let package_json = JSON.parse(fs.readFileSync(`./package.json`));
+	let ts_file = package_json.main;
 
-    asc.ready.then(() => {
-      asc.main([
-        `./src/${ts_file}`,
-        "-O3",
-        "--importMemory",
-        "-o", `./src/${ts_file.replace('.ts', '.wasm')}`
-      ], {
-        stdout: process.stdout,
-        stderr: process.stderr
-      }, function(err) {
-        if (err)
-          console.log(err);
-      });
-      //open('http://localhost:8080', {wait: true});
-    });
+	asc.ready.then(() => {
+		asc.main([
+			`./src/${ts_file}`,
+			"-O3",
+			"--importMemory",
+			"-o", `./src/${ts_file.replace('.ts', '.wasm')}`
+		], {
+			stdout: process.stdout,
+			stderr: process.stderr
+		}, function (err) {
+			if (err)
+				console.log(err);
+		});
+		//open('http://localhost:8080', {wait: true});
+	});
 }
 
 
 if (command === 'init') {
-  // create the template files
-  console.log('init');
-    console.log(chalk.gray(`
+	// create the template files
+	console.log('init');
+	console.log(chalk.gray(`
     =============================================
       INITIALIZING VECTOR ENGINE PROJECT!!!
     =============================================
     `));
 
 
-  const project_name = args[3];
+	const project_name = args[3];
 
-  console.log(process.cwd());
-  fs.mkdirSync(`${project_name}`);
-  fs.mkdirSync(`${project_name}/src`);
-  process.chdir(project_name);
+	console.log(process.cwd());
+	fs.mkdirSync(`${project_name}`);
+	fs.mkdirSync(`${project_name}/src`);
+	process.chdir(project_name);
 
-  package_json = package_json.replace("$$$.ts", `${project_name}.ts`);
-  fs.writeFileSync(`./package.json`, package_json);
-  fs.writeFileSync(`./tsconfig.json`, ts_config);
+	package_json = package_json.replace("$$$.ts", `${project_name}.ts`);
+	fs.writeFileSync(`./package.json`, package_json);
+	fs.writeFileSync(`./tsconfig.json`, ts_config);
 
-  execSync(`npm install`, (error, stdout, stderr) => {
-      if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(stdout);
-  });
+	execSync(`npm install`, (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		console.log(stdout);
+	});
 
-  process.chdir('../');
+	process.chdir('../');
 
-  //let package_json = JSON.parse(fs.readFileSync(`./${project_name}/package.json`));
-  //package_json.main = `${project_name}.ts`;
-  fs.writeFileSync(`./${project_name}/src/${project_name}.ts`, assemblyscript_code, 'utf8',
-  (err) => { console.log(err)});
-  html = html_code.replace('vectorenginefilename.wasm', `${project_name}.wasm`);
-  fs.writeFileSync(`./${project_name}/src/index.html`, html, 'utf8');
-  fs.writeFileSync(`./${project_name}/server.js`, server_code, 'utf8');
-  fs.writeFileSync(`./${project_name}/src/VectorEngine.js`, js_engine, 'utf8');
+	//let package_json = JSON.parse(fs.readFileSync(`./${project_name}/package.json`));
+	//package_json.main = `${project_name}.ts`;
+	fs.writeFileSync(`./${project_name}/src/${project_name}.ts`, assemblyscript_code, 'utf8',
+		(err) => { console.log(err) });
+	html = html_code.replace('vectorenginefilename.wasm', `${project_name}.wasm`);
+	fs.writeFileSync(`./${project_name}/src/index.html`, html, 'utf8');
+	fs.writeFileSync(`./${project_name}/server.js`, server_code, 'utf8');
+	fs.writeFileSync(`./${project_name}/src/VectorEngine.js`, js_engine, 'utf8');
 
 }
 else if (command === 'dev') {
-  // run in a browser
-  exec(`node server.js`, (error, stdout, stderr) => {
-      if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(stdout);
-  });
+	// run in a browser
+	exec(`node server.js`, (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		console.log(stdout);
+	});
 
-  buildAS();
-  open('http://localhost:8080', {wait: true});
+	buildAS();
+	open('http://localhost:8080', { wait: true });
 
-  fs.watch('./src', (eventType, filename) => {
-    if( !filename.match(/\.wasm/) && !filename.match(/index.html/))
-    {
-      console.log(`${filename} was modified!`);
-      buildAS();
-      const time = new Date();
-      console.log(time);
+	fs.watch('./src', (eventType, filename) => {
+		if (!filename.match(/\.wasm/) && !filename.match(/index.html/)) {
+			console.log(`${filename} was modified!`);
+			buildAS();
+			const time = new Date();
+			console.log(time);
 
-      try {
-        let f = './src/index.html';
-        fs.utimesSync(f, time, time);
-      } catch (err) {
-        fs.closeSync(fs.openSync(f, 'w'));
-      }      
-    }
-  });
+			try {
+				let f = './src/index.html';
+				fs.utimesSync(f, time, time);
+			} catch (err) {
+				fs.closeSync(fs.openSync(f, 'w'));
+			}
+		}
+	});
 }
 else {
-  // show help
-  console.log(`
+	// show help
+	console.log(`
   Usage:
   ${chalk.yellow('vec init')}
   Initializes the VectorEngine hello world application.
