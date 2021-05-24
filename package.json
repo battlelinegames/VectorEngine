@@ -1,6 +1,6 @@
 {
   "name": "vectorengine",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "description": "This is a minimal WebGL vector rendering engine written for AssemblyScript.  ",
   "main": "index.ts",
   "ascMain": "index.ts",
